@@ -1,0 +1,12 @@
+from sqlalchemy import Column, BigInteger, DATETIME, String
+
+from src.infrastructure.db_manager.sql_alchemy.base import BaseModel
+
+
+class TaskModel(BaseModel):
+    __tablename__ = "task"
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    batch_key = Column(BigInteger, nullable=False)
+    task_id = Column(BigInteger, nullable=False)
+    start_date = Column(DATETIME, nullable=True)
+    error = Column(String, null=True)
