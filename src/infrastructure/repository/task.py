@@ -6,7 +6,11 @@ from src.domain import Task
 class ITaskRepository(ABC):
 
     @abstractmethod
-    async def get_open_tasks(self, batch_key: str):
+    async def task_count(self, batch_key: str) -> int:
+        raise NotImplementedError
+
+    @abstractmethod
+    async def get_open_tasks(self, batch_key: str, offset: int, limit: int) -> list[Task]:
         raise NotImplementedError
 
     @abstractmethod

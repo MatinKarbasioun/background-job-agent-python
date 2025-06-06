@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update
+from sqlalchemy import func
 
 from src.domain import Task
 from src.infrastructure.models.task_model import TaskModel
@@ -11,8 +12,11 @@ class SqlAlchemyTaskRepository(ITaskRepository):
     def __init__(self, session: AsyncSession):
         self._session = session
 
-    async def get_open_tasks(self, batch_key: str) -> list[Task]:
-        stmt = select(TaskModel).where(TaskModel.batch_key == batch_key)
+    async def task_count(self, task_key: str) -> int:
+        return await self._session.scalar(func.count(TaskModel.batch_key == task_key))
+
+    async def get_open_tasks(self, batch_key: str, offset: int, batch_size: int) -> list[Task]:
+        stmt = select(TaskModel).where(TaskModel.batch_key == batch_key).limit(batch_size).offset(offset)
         result = await self._session.execute(stmt)
         tasks = result.scalars()
         return [task @ toTask for task in tasks]
