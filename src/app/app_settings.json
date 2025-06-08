@@ -1,0 +1,11 @@
+{
+  "timer_conf": {
+    "coalesce": true,
+    "max_instances": 3,
+    "timezone": "UTC"
+  },
+  "job_scheduling_conf": {
+    "duration": 3.5
+  },
+  "timezone": "UTC"
+}

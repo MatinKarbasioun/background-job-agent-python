@@ -5,9 +5,9 @@ from typing import Any
 import pykka
 from pykka import ThreadingActor
 
-from src.application.agent.message import StartJobCommand, StopJobCommand
-from src.application.agent.message.time import AddActorMessage, TimeSignal
-from src.application.agent.time.timer import TimerAgent
+from src.application.agents.messages import StartJobCommand, StopJobCommand
+from src.application.agents.messages.time import AddActorMessage, TimeSignal
+from src.application.agents.time.timer import TimerAgent
 from src.application.task.distributor import Distributor
 from src.application.task.task_handler import TaskHandler
 

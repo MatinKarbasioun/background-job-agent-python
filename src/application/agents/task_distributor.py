@@ -2,10 +2,9 @@ import asyncio
 from typing import Any
 
 from pykka import ThreadingActor
-from asyncio import Queue
 
-from src.application.agent.message.start_job import StartJobCommand
-from src.application.agent.operator import TaskOperator
+from src.application.agents.messages.start_job import StartJobCommand
+from src.application.agents.operator import TaskOperator
 from src.application.task.task_handler import TaskHandler
 
 

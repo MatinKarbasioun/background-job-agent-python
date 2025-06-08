@@ -9,4 +9,4 @@ class TaskModel(BaseModel):
     batch_key = Column(BigInteger, nullable=False)
     task_id = Column(BigInteger, nullable=False)
     start_date = Column(DATETIME, nullable=True)
-    error = Column(String, null=True)
+    error = Column(String, nullable=True)

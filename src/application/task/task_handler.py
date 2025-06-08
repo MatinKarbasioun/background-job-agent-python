@@ -1,8 +1,9 @@
-from asyncio import Queue, sleep
-
+import datetime
+import pytz
 from kink import inject
 from sqlalchemy.ext.asyncio import AsyncEngine
 
+from src.application.app_setting import AppSetting
 from src.application.task.distributor import Distributor
 from src.domain import Task
 from src.infrastructure.clients.task_client import ITaskClient
@@ -15,7 +16,7 @@ class TaskHandler:
     def __init__(self, engine: AsyncEngine, task_repo: ITaskRepository, task_client: ITaskClient):
         self._task_repo = task_repo
         self._task_client = task_client
-        self._distributor = Distributor()
+        self._distributor = Distributor(AppSetting.APP_SETTINGS["job_scheduling_conf"]["duration"])
         self._engine = engine
         self._cancellation = False
 
@@ -28,11 +29,17 @@ class TaskHandler:
                 yield task
 
     async def start_task(self, task: Task):
-        await self._task_client.start_task(task)
+        resp = await self._task_client.start_task(task.task_id)
 
-        async with AsyncDatabaseSessionManager() as session:
+        if resp.is_success:
+            task.start_date = datetime.datetime.now(pytz.timezone(AppSetting.APP_SETTINGS['timezone']))
+
+        else:
+            task.error = resp.error
+
+        async with AsyncDatabaseSessionManager(self._engine) as session:
             await self._task_repo.task_repo(session).update_task(task)
 
     async def task_count(self, key):
-        async with AsyncDatabaseSessionManager as session:
+        async with AsyncDatabaseSessionManager(self._engine) as session:
             return await self._task_repo.task_repo(session).task_count(key)

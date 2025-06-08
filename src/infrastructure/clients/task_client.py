@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 
-from src.domain import Task
+from src.infrastructure.clients.task_response import TaskResponse
 
 
 class ITaskClient(ABC):
 
     @abstractmethod
-    def start_task(self, task: Task):
+    async def start_task(self, task_id: int) -> TaskResponse:
         raise NotImplementedError

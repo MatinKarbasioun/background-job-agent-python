@@ -5,7 +5,7 @@ import pykka
 from kink import inject
 
 from src.application.Time import Timer
-from src.application.agent.message.time import *
+from src.application.agents.messages.time import *
 
 
 @inject
