@@ -6,6 +6,10 @@ from src.domain import Task
 class ITaskRepository(ABC):
 
     @abstractmethod
+    async def is_exist(self, job_id: str) -> bool:
+        raise NotImplementedError
+
+    @abstractmethod
     async def task_count(self, batch_key: str) -> int:
         raise NotImplementedError
 

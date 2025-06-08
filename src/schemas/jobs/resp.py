@@ -6,3 +6,6 @@ class AddJobSuccessfully(BaseModel):
 
 class StopJobSuccessfully(BaseModel):
     msg: str
+
+class JobNotFound(BaseModel):
+    msg: str

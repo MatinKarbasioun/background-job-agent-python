@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update
+from sqlalchemy import select, update, exists
 from sqlalchemy import func
 
 from src.domain import Task
@@ -11,6 +11,11 @@ from src.infrastructure.repository.task import ITaskRepository
 class SqlAlchemyTaskRepository(ITaskRepository):
     def __init__(self, session: AsyncSession):
         self._session = session
+
+    async def is_exist(self, job_id: str) -> bool:
+        stmt = select(exists(select(TaskModel).where(TaskModel.task_id==job_id)))
+        result = await self._session.execute(stmt)
+        return result.scalar()
 
     async def task_count(self, task_key: str) -> int:
         return await self._session.scalar(func.count(TaskModel.batch_key == task_key))

@@ -20,6 +20,10 @@ class TaskHandler:
         self._engine = engine
         self._cancellation = False
 
+    async def is_exist(self, job_id) -> bool:
+        async with AsyncDatabaseSessionManager(self._engine) as session:
+            return await self._task_repo.task_repo(session).is_exist(job_id)
+
     async def get_open_tasks(self, task_key: str, batch_size: int = 1, offset: int = 0):
 
         async with AsyncDatabaseSessionManager(self._engine) as session:
