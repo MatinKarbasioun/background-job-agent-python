@@ -10,11 +10,11 @@ class ITaskRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def task_count(self, batch_key: str) -> int:
+    async def task_count(self, job_id: str) -> int:
         raise NotImplementedError
 
     @abstractmethod
-    async def get_open_tasks(self, batch_key: str, offset: int, limit: int) -> list[Task]:
+    async def get_open_tasks(self, job_id: str, offset: int, limit: int) -> list[Task]:
         raise NotImplementedError
 
     @abstractmethod
