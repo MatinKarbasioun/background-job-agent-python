@@ -3,9 +3,9 @@ from typing import Any
 
 import pykka
 
-from src.application.Time import Timer
 from src.application.agents.messages import StartSystemCommand
 from src.application.agents.time.timer import TimerAgent
+from src.application.time import Timer
 
 
 class ActorSystem:
@@ -24,6 +24,11 @@ class ActorSystem:
         ActorSystem.timer_ref = TimerAgent.start(timer=self._timer)
         ActorSystem.actor_ref = self._actor.start(**self._arguments)
         ActorSystem.actor_ref.tell(StartSystemCommand())
+
+    @classmethod
+    def stop(cls):
+        ActorSystem.timer_ref.stop()
+        ActorSystem.actor_ref.stop()
 
     @classmethod
     def _setup_loop(cls, loop: asyncio.AbstractEventLoop):

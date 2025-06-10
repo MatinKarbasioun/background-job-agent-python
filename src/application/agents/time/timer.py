@@ -1,11 +1,13 @@
+import asyncio
 import copy
 import time
+from typing import Any
 
 import pykka
 from kink import inject
 
-from src.application.Time import Timer
 from src.application.agents.messages.time import *
+from src.application.time import Timer
 
 
 @inject

@@ -1,3 +1,4 @@
+import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi.encoders import jsonable_encoder
@@ -17,10 +18,11 @@ from src.application.app_setting import AppSetting
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     AppSetting()
-    Bootstrap().start()
+    bootstrap = Bootstrap()
+    bootstrap.start()
 
     yield
-    Bootstrap().stop()
+    bootstrap.stop()
 
 
 app = FastAPI(lifespan=lifespan, title='background-job-runner-agent', version='1.0.0', debug=True, docs_url='/swagger')

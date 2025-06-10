@@ -4,8 +4,13 @@
     "max_instances": 3,
     "timezone": "UTC"
   },
-  "job_scheduling_conf": {
-    "duration": 3.5
+  "scheduling_conf": {
+    "duration(hours)": 3.5,
+    "job_call(sec)": 60,
+    "daily_start_time": "09:05",
+    "daily_end_time": "12:29",
+    "time_format": "%H:%M",
+    "timezone": "UTC"
   },
   "timezone": "UTC"
 }

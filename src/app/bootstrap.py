@@ -4,10 +4,10 @@ from kink import di
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine
 
-from src.application.Time import Timer
 from src.application.agents.actor_sys import ActorSystem
 from src.application.agents.task_distributor import TaskDistributor
 from src.application.app_setting import AppSetting
+from src.application.time import Timer
 from src.infrastructure.clients.client import TaskClient
 from src.infrastructure.clients.task_client import ITaskClient
 from src.infrastructure.repository.sqlalchemy.task import SqlAlchemyTaskRepository
@@ -58,4 +58,5 @@ class Bootstrap:
         self._timer.start()
 
     def stop(self):
-        self._timer.shutdown(wait=True)
+        self._timer.shutdown()
+        self._actor_sys.stop()

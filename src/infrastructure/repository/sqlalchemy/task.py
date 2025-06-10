@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, exists
 from sqlalchemy import func
+from sqlalchemy import and_
 
 from src.domain import Task
 from src.infrastructure.models.task_model import TaskModel
@@ -13,15 +14,21 @@ class SqlAlchemyTaskRepository(ITaskRepository):
         self._session = session
 
     async def is_exist(self, job_id: str) -> bool:
-        stmt = select(exists(select(TaskModel).where(TaskModel.job_id==job_id)))
+        stmt = select(exists(select(TaskModel).where(and_(TaskModel.job_id==job_id,
+                                                          TaskModel.start_date == None,
+                                                          TaskModel.error==None))))
         result = await self._session.execute(stmt)
         return result.scalar()
 
     async def task_count(self, job_id: str) -> int:
-        return await self._session.scalar(func.count(TaskModel.job_id == job_id))
+        return await self._session.scalar(func.count(and_(TaskModel.job_id==job_id,
+                                                          TaskModel.start_date == None,
+                                                          TaskModel.error==None)))
 
     async def get_open_tasks(self, job_id: str, offset: int, batch_size: int) -> list[Task]:
-        stmt = select(TaskModel).where(TaskModel.job_id == job_id).limit(batch_size).offset(offset)
+        stmt = select(TaskModel).where(and_(TaskModel.job_id==job_id,
+                                            TaskModel.start_date == None,
+                                            TaskModel.error==None)).limit(batch_size).offset(offset)
         result = await self._session.execute(stmt)
         tasks = result.scalars()
         return [task @ toTask for task in tasks]
@@ -31,3 +38,7 @@ class SqlAlchemyTaskRepository(ITaskRepository):
                                                                                  error=task.error)
         await self._session.execute(stmt)
         await self._session.commit()
+
+    @classmethod
+    def task_repo(cls, session) -> 'ITaskRepository':
+        return cls(session)

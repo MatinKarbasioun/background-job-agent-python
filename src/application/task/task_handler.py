@@ -4,7 +4,6 @@ from kink import inject
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from src.application.app_setting import AppSetting
-from src.application.task.distributor import Distributor
 from src.domain import Task
 from src.infrastructure.clients.task_client import ITaskClient
 from src.infrastructure.db_manager.sql_alchemy.session import AsyncDatabaseSessionManager
@@ -16,7 +15,6 @@ class TaskHandler:
     def __init__(self, engine: AsyncEngine, task_repo: ITaskRepository, task_client: ITaskClient):
         self._task_repo = task_repo
         self._task_client = task_client
-        self._distributor = Distributor(AppSetting.APP_SETTINGS["job_scheduling_conf"]["duration"])
         self._engine = engine
         self._cancellation = False
 
