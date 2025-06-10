@@ -20,7 +20,6 @@ class ActorSystem:
         self._timer = timer
 
     def start(self):
-        print(self._arguments)
         ActorSystem.timer_ref = TimerAgent.start(timer=self._timer)
         ActorSystem.actor_ref = self._actor.start(**self._arguments)
         ActorSystem.actor_ref.tell(StartSystemCommand())
