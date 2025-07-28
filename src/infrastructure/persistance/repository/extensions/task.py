@@ -1,5 +1,5 @@
-from src.domain.task import Task
-from src.infrastructure.models.task_model import TaskModel
+from src.domain.entities.task import Task
+from src.infrastructure.persistance.models import TaskModel
 
 
 class toTask:

@@ -10,8 +10,8 @@ from src.application.app_setting import AppSetting
 from src.application.time import Timer
 from src.infrastructure.clients.client import TaskClient
 from src.infrastructure.clients.task_client import ITaskClient
-from src.infrastructure.repository.sqlalchemy.task import SqlAlchemyTaskRepository
-from src.infrastructure.repository.task import ITaskRepository
+from src.infrastructure.persistance.repository.sqlalchemy.task import SqlAlchemyTaskRepository
+from src.infrastructure.persistance.repository import ITaskRepository
 
 
 class Bootstrap:

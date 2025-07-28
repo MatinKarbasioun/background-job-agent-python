@@ -6,12 +6,12 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from src.application.app_setting import AppSetting
 from src.domain import Task
 from src.infrastructure.clients.task_client import ITaskClient
-from src.infrastructure.db_manager.sql_alchemy.session import AsyncDatabaseSessionManager
-from src.infrastructure.repository.task import ITaskRepository
+from src.infrastructure.persistance.db_manager import AsyncDatabaseSessionManager
+from src.infrastructure.persistance.repository import ITaskRepository
 
 
 @inject
-class TaskHandler:
+class TaskService:
     def __init__(self, engine: AsyncEngine, task_repo: ITaskRepository, task_client: ITaskClient):
         self._task_repo = task_repo
         self._task_client = task_client

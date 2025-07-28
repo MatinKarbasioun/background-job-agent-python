@@ -4,9 +4,9 @@ from sqlalchemy import func
 from sqlalchemy import and_
 
 from src.domain import Task
-from src.infrastructure.models.task_model import TaskModel
-from src.infrastructure.repository.extensions.task import toTask
-from src.infrastructure.repository.task import ITaskRepository
+from src.infrastructure.persistance.models import TaskModel
+from src.infrastructure.persistance.repository.extensions.task import toTask
+from src.infrastructure.persistance.repository.task import ITaskRepository
 
 
 class SqlAlchemyTaskRepository(ITaskRepository):

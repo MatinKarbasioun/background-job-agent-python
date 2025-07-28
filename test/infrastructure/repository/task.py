@@ -1,7 +1,5 @@
-from abc import abstractmethod
-
 from src.domain import Task
-from src.infrastructure.repository.task import ITaskRepository
+from src.infrastructure.persistance.repository import ITaskRepository
 
 
 class MockTaskRepository(ITaskRepository):

@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from src.application.task.task_handler import TaskHandler
+from src.application.service.task_service import TaskHandler
 from src.main import app
 import pytest
 

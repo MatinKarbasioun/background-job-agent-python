@@ -5,16 +5,14 @@ from fastapi import BackgroundTasks, APIRouter, Depends
 
 from src.application.agents.actor_sys import ActorSystem
 from src.application.agents.messages import StartJobCommand, StopJobCommand
-from src.application.task.task_handler import TaskHandler
-from src.router.dependencies.dependencies import Dependencies
-from src.schemas.jobs import *
-
+from src.application.service import TaskService
+from src.controllers.dependencies import Dependencies
 
 job_router = APIRouter(prefix='/jobs', tags=["jobs"])
 
 
 @job_router.post("", status_code=200)
-async def create_job(job: JobRequest, background_tasks: BackgroundTasks, task_handler: Annotated[TaskHandler, Depends(Dependencies.task_handler)]) -> AddJobSuccessfully:
+async def create_job(job: JobRequest, background_tasks: BackgroundTasks, task_service: Annotated[TaskService, Depends(Dependencies.task_handler)]) -> AddJobSuccessfully:
 
     if await task_handler.is_exist(job.job_id):
         background_tasks.add_task(ActorSystem.tell, StartJobCommand(job.job_id))

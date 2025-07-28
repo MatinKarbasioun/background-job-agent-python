@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.schemas.tasks.task import TaskResponse
+from src.application.schemas.tasks.task import TaskResponse
 
 task_router = APIRouter(prefix="/tasks", tags=["tasks"])
 
