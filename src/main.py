@@ -7,11 +7,11 @@ from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from .router import *
+from .config.bootstrap import Bootstrap
+from .controllers import app_router, job_router, task_router
 
 from fastapi import FastAPI
 
-from src.app.bootstrap import Bootstrap
 from src.application.app_setting import AppSetting
 
 
@@ -26,6 +26,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title='background-job-runner-agent', version='1.0.0', debug=True, docs_url='/swagger')
+
 app.include_router(app_router)
 app.include_router(job_router)
 app.include_router(task_router)

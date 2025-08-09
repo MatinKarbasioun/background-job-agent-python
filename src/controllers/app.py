@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.application.schemas.app import ApplicationResponse
+from src.application.schemas import ApplicationResponse
 
 app_router = APIRouter(prefix="", tags=["app"])
 

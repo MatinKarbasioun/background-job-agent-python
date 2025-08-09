@@ -1,5 +1,5 @@
-from src.infrastructure.clients.task_client import ITaskClient
-from src.infrastructure.clients.task_response import TaskResponse
+from src.application.ports import ITaskClient
+from src.application.schemas import TaskResponse
 
 
 class MockTaskClient(ITaskClient):

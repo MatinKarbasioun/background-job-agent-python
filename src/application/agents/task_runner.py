@@ -1,17 +1,15 @@
 import asyncio
-import time
 from typing import Any
 
 from pykka import ThreadingActor
 
 from src.application.agents.actor_sys import ActorSystem
 from src.application.agents.messages import StopJobCommand
-from src.application.agents.messages.time import AddActorMessage, TimeSignal, StopTimerCommand
+from src.application.agents.messages.time import TimeSignal, StopTimerCommand
 from src.application.app_setting import AppSetting
-from src.application.task.distributor import Distributor
 from src.application.service import TaskService
-from src.application.time.job_time_service import JobDateTimeService
 from src.domain import Task
+from src.domain.services import TaskDistributor
 
 
 class TaskRunner(ThreadingActor):
@@ -63,3 +61,14 @@ class TaskRunner(ThreadingActor):
 
     def on_stop(self) -> None:
         ActorSystem.timer_ref.tell(StopTimerCommand(self.actor_ref))
+
+    def _read_conf(self):
+        config = AppSetting.APP_SETTINGS['scheduling_conf']
+        self._job_call_duration = config["duration"]
+        self._time_service = JobDateTimeService(start_time=config['daily_start_time'],
+                                                end_time=config['daily_end_time'],
+                                                timezone=config['timeZone'],
+                                                time_format=config['time_format'])
+        self._distributor = TaskDistributor(daily_duration_hours=config["duration(hours)"],
+                                            job_call_duration=self._job_call_duration)
+

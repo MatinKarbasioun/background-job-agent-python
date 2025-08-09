@@ -13,15 +13,18 @@ class ActorSystem:
     event_loop: asyncio.AbstractEventLoop = None
     timer_ref: pykka.ActorRef = None
 
-    def __init__(self, initial_actor: type[pykka.ThreadingActor], timer: Timer, event_loop: asyncio.AbstractEventLoop, **initial_arguments):
+    def __init__(
+            self,
+            initial_actor: type[pykka.ThreadingActor],
+            timer: Timer, event_loop: asyncio.AbstractEventLoop
+    ):
         self._actor = initial_actor
-        self._arguments = initial_arguments
         self._setup_loop(event_loop)
         self._timer = timer
 
-    def start(self):
+    def __call__(self, **kwargs):
         ActorSystem.timer_ref = TimerAgent.start(timer=self._timer)
-        ActorSystem.actor_ref = self._actor.start(**self._arguments)
+        ActorSystem.actor_ref = self._actor.start(**kwargs)
         ActorSystem.actor_ref.tell(StartSystemCommand())
 
     @classmethod

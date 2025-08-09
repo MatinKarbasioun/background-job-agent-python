@@ -1,13 +1,11 @@
-import datetime
-import pytz
 from kink import inject
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from src.application.app_setting import AppSetting
+from src.application.ports import ITaskClient
 from src.domain import Task
-from src.infrastructure.clients.task_client import ITaskClient
-from src.infrastructure.persistance.db_manager import AsyncDatabaseSessionManager
-from src.infrastructure.persistance.repository import ITaskRepository
+
+from src.domain.repositories import ITaskRepository
+from src.infrastructure.persistance import AsyncDatabaseSessionManager
 
 
 @inject
@@ -31,13 +29,7 @@ class TaskService:
                 yield task
 
     async def start_task(self, task: Task):
-        resp = await self._task_client.start_task(task.task_id)
-
-        if resp.is_success:
-            task.start_date = datetime.datetime.now(pytz.timezone(AppSetting.APP_SETTINGS['timezone']))
-
-        else:
-            task.error = resp.error
+        await self._task_client.start_task(task)
 
         async with AsyncDatabaseSessionManager(self._engine) as session:
             await self._task_repo.task_repo(session).update_task(task)

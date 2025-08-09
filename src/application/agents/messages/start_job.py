@@ -2,4 +2,4 @@ from typing import NamedTuple
 
 
 class StartJobCommand(NamedTuple):
-    key: str
+    task_id: str

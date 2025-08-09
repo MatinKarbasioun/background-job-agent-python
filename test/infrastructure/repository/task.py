@@ -1,5 +1,5 @@
 from src.domain import Task
-from src.infrastructure.persistance.repository import ITaskRepository
+from src.domain.repositories import ITaskRepository
 
 
 class MockTaskRepository(ITaskRepository):

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from anyio.abc import TaskStatus
+from src.domain.value_objects import TaskStatus
 
 
 @dataclass(frozen=False)

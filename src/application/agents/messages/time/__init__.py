@@ -3,4 +3,8 @@ from .add_agent import AddActorMessage
 from .time_signal import TimeSignal
 
 
-__all__ = ['StopTimerCommand', 'AddActorMessage', 'TimeSignal']
+__all__ = [
+    'StopTimerCommand',
+    'AddActorMessage',
+    'TimeSignal'
+]

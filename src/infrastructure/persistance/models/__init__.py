@@ -1,5 +1,5 @@
 __all__ = [
-    'SqlAlchemyTaskModel'
+    'SqlServerTaskModel'
 ]
 
-from .task_model import SqlAlchemyTaskModel
+from .task_model import SqlServerTaskModel
